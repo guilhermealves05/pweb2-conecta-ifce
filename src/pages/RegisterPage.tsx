@@ -12,8 +12,15 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { EyeIcon, EyeOffIcon, Loader2Icon } from 'lucide-react'
 import React, { useState } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
-function LoginPage() {
+function RegisterPage() {
   const [showPass, setShowPass] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -79,46 +86,92 @@ function LoginPage() {
           </div>
 
           <CardTitle className="text-2xl font-bold text-foreground">
-            Bem-vindo de volta
+            Criar a sua conta
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Entre com seu e-mail institucional
+            Preencha os dados para entrar na comunidade
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-2">
-              <Label
-                htmlFor="email"
-                className={`text-foreground ${error && 'text-destructive'}`}
-              >
-                E-mail institucional
-              </Label>
+
+
+            <div className='flex items-center gap-4'>
+              <div className="flex flex-col gap-2">
+              <Label htmlFor="nome" className="text-foreground">Nome</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="seu.nome@ifce.edu.br"
+                id="nome"
+                name="nome"
+                type="text"
+                placeholder="Seu nome completo"
+                required
+                className="h-11 bg-background"
+              />
+            </div>
+
+                  <div className="flex flex-col gap-2">
+              <Label htmlFor="sobrenome" className="text-foreground"> Sobrenome </Label>
+              <Input
+                id="sobrenome"
+                name="sobrenome"
+                type="text"
+                placeholder="Seu sobrenome"
                 value={email}
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 required
                 className="h-11 bg-background"
               />
             </div>
+            </div>
+
+             <div className="flex flex-col gap-2">
+              <Label htmlFor="email" className="text-foreground">E-mail Institucional</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="seu.nome@ifce.edu.br"
+                required
+                className="h-11 bg-background"
+              />
+            </div>
 
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
+              <Label htmlFor="role" className="text-foreground">Vinculo</Label>
+              <Select required >
+                <SelectTrigger className='bg-background w-full h-11' id="role">
+                  <SelectValue placeholder="Selecione seu vínculo com o IFCE" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="student">Estudante</SelectItem>
+                  <SelectItem value="professor">Docente</SelectItem>
+                  <SelectItem value="technician">Técnico</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="campus" className="text-foreground">Campus</Label>
+              <Select required>
+                <SelectTrigger className='bg-background w-full h-11' id="campus">
+                  <SelectValue placeholder="Selecione seu campus" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="taua">Tauá</SelectItem>
+                  <SelectItem value="boa_viagem">Boa Viagem</SelectItem>
+                  <SelectItem value="fortaleza">Fortaleza</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-2">
                 <Label
                   htmlFor="password"
-                  className={`text-foreground ${error && 'text-destructive'}`}
+                  className="text-foreground"
                 >
                   Senha
                 </Label>
-                <a href="/recover" className="text-primary text-sm">
-                  Esqueceu a senha?
-                </a>
-              </div>
 
               <div className="relative">
                 <Input
@@ -144,18 +197,21 @@ function LoginPage() {
                   )}
                 </button>
               </div>
+              <p  className='text-xs text-muted-foreground'>
+                Mínimo de 8 caracteres com letras e números
+              </p>
             </div>
 
-            <Button type="submit" className="mt-2 h-11">
-                        Entrar
-                      </Button>
+          <Button type="submit" className="mt-2 h-11">
+            Crar Conta
+          </Button>
           </form>
         </CardContent>
 
         <CardFooter className="border-t border-border">
           <p className="text-sm text-muted-foreground text-center w-full">
-            Não tem conta?{' '}
-            <a href="/register" className="text-primary">Criar conta
+            Já tem conta?{' '}
+            <a href="/login" className="text-primary">Entrar
             </a>
           </p>
         </CardFooter>
@@ -164,4 +220,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default RegisterPage
