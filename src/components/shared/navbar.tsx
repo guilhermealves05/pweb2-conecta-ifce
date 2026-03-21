@@ -1,41 +1,42 @@
 import Brand from "@/components/shared/brand"
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router"
 
 function Navbar() {
   return (
     <header className="sticky top-0 border-b border-border z-50 bg-card/80 backdrop-blur-md">
       <nav className="container-main flex items-center justify-between py-3">
-        <a href="/">
+        <Link to="/">
           <Brand />
-        </a>
+        </Link>
 
         <div className="flex gap-4 lg:gap-8">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="text-muted-foreground font-medium hover:text-primary"
           >
             Início
-          </a>
-          <a
-            href="/#feature-section"
+          </Link>
+          <Link
+            to="/#feature-section"
             className="text-muted-foreground font-medium hover:text-primary"
           >
             Recursos
-          </a>
-          <a
-            href="/#faq-section"
+          </Link>
+          <Link
+            to="/#faq-section"
             className="text-muted-foreground font-medium hover:text-primary"
           >
             Perguntas Frequentes
-          </a>
+          </Link>
         </div>
 
         <div className="flex gap-2">
           <Button variant="ghost" size="lg" asChild>
-            <a href="/login">Entrar</a>
+            <Link to="/login">Entrar</Link>
           </Button>
           <Button size="lg" asChild>
-            <a href="/register">Criar Conta</a>
+            <Link to="/register">Criar Conta</Link>
           </Button>
         </div>
       </nav>

@@ -30,7 +30,7 @@ const features = [
 
 function FeatureSection() {
   return (
-    <section className="bg-background py-20">
+    <section className="bg-background py-20" id="feature-section">
       <div className="container-main">
         <div className="mx-auto text-center max-w-2xl">
           <p className="text-primary uppercase tracking-wide font-semibold text-sm">

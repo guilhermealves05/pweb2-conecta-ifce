@@ -1,4 +1,5 @@
 import Brand from './brand'
+import { Link } from 'react-router'
 
 function Footer() {
   return (
@@ -6,9 +7,9 @@ function Footer() {
       <div className="container-main py-12">
         <div className="grid grid-cols-4">
           <div>
-            <a href="/">
+            <Link to="/">
               <Brand />
-            </a>
+            </Link>
             <p className="mt-3 text-sm text-muted-foreground text-balance leading-relaxed">
               Rede social acadêmica do IFCE. Conecatando a comunidade para
               crescer juntos.
