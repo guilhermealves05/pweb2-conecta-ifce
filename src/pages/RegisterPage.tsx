@@ -24,18 +24,7 @@ function RegisterPage() {
   const [showPass, setShowPass] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-
-  // Aqui estamos criando um estado para controlar se a aplicação está em processo de login (isLoading)
-  // Quando o usuário clica no botão de login, definimos isLoading como true, indicando que a aplicação está processando a solicitação de login
-  // Durante esse tempo, o botão de login é desabilitado para evitar múltiplos cliques e, em vez do texto "Entrar", exibimos um ícone de carregamento (Loader2Icon) junto com o texto "Entrando..."
-  // Assim que a resposta da API é recebida e o processo de login é concluído (seja com sucesso ou com erro), definimos isLoading como false, permitindo que o usuário interaja novamente com o botão de login
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  // Aqui estamos criando um estado para armazenar mensagens de erro
-  // Observe ao longo do código que, quando ocorre um erro, atualizamos esse estado com a mensagem de erro recebida da API
-  // E, na interface do usuário, verificamos se há uma mensagem de erro e a exibimos para o usuário, proporcionando feedback sobre o que deu errado
-  // Além disso, definimos um timeout para limpar a mensagem de erro após 3 segundos, garantindo que a interface fique limpa novamente
-  // Também atualizamos o estilo dos rótulos (labels) para que, quando houver um erro, eles fiquem com a cor de texto de erro (text-destructive), destacando visualmente o problema para o usuário
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (event: React.SubmitEvent) => {
@@ -65,8 +54,6 @@ function RegisterPage() {
       setEmail('')
       setPassword('')
       setError(null)
-      // Redirecionar para a página inicial da área logada
-      // window.location.href = '/feed'
     }
 
     if (data.error) {
