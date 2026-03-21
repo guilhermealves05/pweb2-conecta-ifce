@@ -203,7 +203,7 @@ function RegisterPage() {
             </div>
 
           <Button type="submit" className="mt-2 h-11">
-            Crar Conta
+            Criar Conta
           </Button>
           </form>
         </CardContent>
