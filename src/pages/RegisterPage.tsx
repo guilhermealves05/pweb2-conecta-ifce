@@ -45,5 +45,4 @@ function RegisterPage() {
     </section>
   )
 }
-
 export default RegisterPage
