@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { EyeIcon, EyeOffIcon, Loader2Icon } from 'lucide-react'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import {
   Select,
@@ -19,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { registerSchema } from '@/schemas/register.schema'
+import { ZodError } from 'zod'
 
 function RegisterPage() {
   const [showPass, setShowPass] = useState<boolean>(false)
@@ -27,41 +29,23 @@ function RegisterPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (event: React.SubmitEvent) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const formData = new FormData(event.target as HTMLFormElement)
 
-    setIsLoading(true)
-
-    const response = await fetch(
-      'https://conectaifce-api.proflucasmendes.com.br/auth/login',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      },
-    )
-
-    const data = await response.json()
-    console.log(data)
-
-    if (response.status === 200) {
-      localStorage.setItem('token_access', data.token)
-      setEmail('')
-      setPassword('')
-      setError(null)
+    const data = {
+      firstName: formData.get('firstName'),
+      password: formData.get('password'),
     }
 
-    if (data.error) {
-      setError(data.error.message)
-      setTimeout(() => setError(null), 3000)
+    try {
+      const validatedData = registerSchema.parse(data)
+      console.log(validatedData)
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.log(error)
+      }
     }
-
-    setIsLoading(false)
   }
 
   return (
@@ -83,50 +67,47 @@ function RegisterPage() {
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
-
             <div className='flex items-center gap-4'>
               <div className="flex flex-col gap-2">
-              <Label htmlFor="nome" className="text-foreground">Nome</Label>
-              <Input
-                id="nome"
-                name="nome"
-                type="text"
-                placeholder="Seu nome completo"
-                required
-                className="h-11 bg-background"
-              />
+                <Label htmlFor="firstName" className="text-foreground">Nome</Label>
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  placeholder="Seu nome completo"
+                  required
+                  className="h-11 bg-background"
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="lastName" className="text-foreground"> Sobrenome </Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  placeholder="Seu sobrenome"
+                  value={email}
+                  onChange={(e) => setEmail(e.currentTarget.value)}
+                  className="h-11 bg-background"
+                />
+              </div>
             </div>
 
-                  <div className="flex flex-col gap-2">
-              <Label htmlFor="sobrenome" className="text-foreground"> Sobrenome </Label>
-              <Input
-                id="sobrenome"
-                name="sobrenome"
-                type="text"
-                placeholder="Seu sobrenome"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-                required
-                className="h-11 bg-background"
-              />
-            </div>
-            </div>
-
-             <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-foreground">E-mail Institucional</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 placeholder="seu.nome@ifce.edu.br"
-                required
                 className="h-11 bg-background"
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="role" className="text-foreground">Vinculo</Label>
-              <Select required >
+              <Select>
                 <SelectTrigger className='bg-background w-full h-11' id="role">
                   <SelectValue placeholder="Selecione seu vínculo com o IFCE" />
                 </SelectTrigger>
@@ -140,7 +121,7 @@ function RegisterPage() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="campus" className="text-foreground">Campus</Label>
-              <Select required>
+              <Select>
                 <SelectTrigger className='bg-background w-full h-11' id="campus">
                   <SelectValue placeholder="Selecione seu campus" />
                 </SelectTrigger>
@@ -153,12 +134,9 @@ function RegisterPage() {
             </div>
 
             <div className="flex flex-col gap-2">
-                <Label
-                  htmlFor="password"
-                  className="text-foreground"
-                >
-                  Senha
-                </Label>
+              <Label htmlFor="password" className="text-foreground">
+                Senha
+              </Label>
 
               <div className="relative">
                 <Input
@@ -184,22 +162,22 @@ function RegisterPage() {
                   )}
                 </button>
               </div>
-              <p  className='text-xs text-muted-foreground'>
+
+              <p className='text-xs text-muted-foreground'>
                 Mínimo de 8 caracteres com letras e números
               </p>
             </div>
 
-          <Button type="submit" className="mt-2 h-11">
-            Criar Conta
-          </Button>
+            <Button type="submit" className="mt-2 h-11">
+              Criar Conta
+            </Button>
           </form>
         </CardContent>
 
         <CardFooter className="border-t border-border">
           <p className="text-sm text-muted-foreground text-center w-full">
             Já tem conta?{' '}
-            <a href="/login" className="text-primary">Entrar
-            </a>
+            <a href="/login" className="text-primary">Entrar</a>
           </p>
         </CardFooter>
       </Card>
