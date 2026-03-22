@@ -1,5 +1,5 @@
-import Brand from '@/components/shared/brand'
-import { Button } from '@/components/ui/button'
+import Brand from '@/shared/components/brand'
+import { Button } from '@/shared/components/ui/button'
 import {
   Card,
   CardContent,
@@ -7,9 +7,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
+} from '@/shared/components/ui/card'
+import { Label } from '@/shared/components/ui/label'
+import { Input } from '@/shared/components/ui/input'
 import { EyeIcon, EyeOffIcon, Loader2Icon } from 'lucide-react'
 import React, { useState } from 'react'
 
