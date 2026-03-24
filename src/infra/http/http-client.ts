@@ -1,3 +1,5 @@
+import { ApiError, type ApiErrorResponse } from "./api-error";
+
 const API_URL = import.meta.env.VITE_API_URL
 
 export const http = {
@@ -5,14 +7,20 @@ export const http = {
     endpoint: string,
     searchParams?: Array<{ key: string; value: string }>,
   ): Promise<ResponseType> => {
-    const finalUrl = buildUrl(endpoint, searchParams)
+   const finalUrl = buildUrl(endpoint, searchParams)
     const response = await fetch(finalUrl)
     const responseBody = await response.json()
     if (response.ok) {
       return responseBody as ResponseType
     }
 
-    throw new Error('Erro ao buscar dados.')
+    const { error } = responseBody as ApiErrorResponse
+    throw new ApiError(
+      error.message,
+      error.code,
+      response.status,
+      error.details,
+    )
   },
 
   post: async <ResponseType>(
@@ -27,12 +35,19 @@ export const http = {
       },
       body: JSON.stringify(body),
     })
-    if (response.ok)  {
-      return (await response.json()) as ResponseType
+    const responseBody = await response.json()
+
+    if (response.ok) {
+      return responseBody as ResponseType
     }
 
-    throw new Error('Erro ao enviar dados.')
-
+    const { error } = responseBody as ApiErrorResponse
+    throw new ApiError(
+      error.message,
+      error.code,
+      response.status,
+      error.details,
+    )
   },
 }
 
