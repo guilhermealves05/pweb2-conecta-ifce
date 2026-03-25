@@ -5,9 +5,12 @@ import { registerSchema, type RegisterFormData } from "../schemas/register.schem
 import { zodResolver } from "@hookform/resolvers/zod"
 import { http } from "@/infra/http/http-client"
 import { setAccessToken } from "../storage/auth.storage"
+import { ApiError } from "@/infra/http/api-error"
+import { getCampuses, registerUser } from "../services/register.service"
 
 export function useFormRegister() {
     const [showPass, setShowPass] = useState<boolean>(false)
+    const [registerError, setRegisterError] = useState<string | null>(null)
   const [campuses, setCampuses] = useState<
     Array<{
       id: string
@@ -20,10 +23,12 @@ export function useFormRegister() {
   useEffect(() => {
     async function fetchCampuses() {
       try {
-        const campuses = await http.get<Array<{id: string; name: string }>>('campuses')
+        const campuses = await getCampuses()
         setCampuses(campuses)
       } catch (error) {
-        console.error(error)
+        if (error instanceof ApiError) {
+          setRegisterError(error.message)
+        }
       }
       }
 
@@ -45,15 +50,21 @@ export function useFormRegister() {
   const onSubmit = async (data: RegisterFormData) => {
     console.log('Enviando....', data)
 
+    if (!data.role) {
+      setRegisterError('Role is required')
+      return
+    }
+
     const { course, ...rest } = data
     const payload = data.role === 'student' ? data : rest
 
     try {
-      const responseData = await http.post<{ token: string, user: any}>('auth/register', payload)
-      setAccessToken(responseData.token)
+      registerUser({ ...payload, role: data.role })
       navigate('/feed')
     } catch (error) {
-      console.error(error)
+      if(error instanceof ApiError) {
+            setRegisterError(error.message)
+          }
     }
   }
 
@@ -61,6 +72,7 @@ export function useFormRegister() {
     state: {
       showPass,
       setShowPass,
+      registerError,
       campuses
     },
     onSubmit,

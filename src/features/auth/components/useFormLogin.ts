@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import { LoginSchema, type LoginFormData } from '../schemas/login.schema'
 import { setAccessToken } from '../storage/auth.storage'
 import { http } from '@/infra/http/http-client'
+import { ApiError } from '@/infra/http/api-error'
 
 
 export function UseFormLogin() {
@@ -31,10 +32,9 @@ export function UseFormLogin() {
     setAccessToken(responseData.token)
     navigate('/feed')
   } catch (error) {
-    console.error(error)
-    setAuthError(
-      error instanceof Error ? error.message : 'Erro desconhecido'
-    )
+    if(error instanceof ApiError) {
+      setAuthError(error.message)
+    }
   }
 }
 
