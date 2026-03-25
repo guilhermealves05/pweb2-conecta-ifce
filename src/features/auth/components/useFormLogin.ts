@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router'
 import { LoginSchema, type LoginFormData } from '../schemas/login.schema'
 import { ApiError } from '@/infra/http/api-error'
 import { login } from '../services/login.service'
+import { useAuth } from '../contexts/AuthContext'
 
 
 export function UseFormLogin() {
   const [showPass, setShowPass] = useState<boolean>(false)
   const [authError, setAuthError] = useState<string | null>(null)
   const navigate = useNavigate()
+  const { setAuthUser } = useAuth()
 
   const {
     register,
@@ -23,7 +25,8 @@ export function UseFormLogin() {
 
   const onSubmit = async (data: LoginFormData) => {
   try {
-    login(data.email, data.password)
+     const responseData = await login(data.email, data.password)
+     setAuthUser(responseData.user)
     navigate('/feed')
   } catch (error) {
     if(error instanceof ApiError) {

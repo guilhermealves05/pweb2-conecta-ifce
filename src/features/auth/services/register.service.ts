@@ -16,8 +16,11 @@ export async function getCampuses(): Promise<Array<CampusType>> {
 export async function registerUser(
   user: UserRequestDTO,
 ): Promise<UserResponseDTO> {
-  const responseData = await http.post<UserResponseDTO>('auth/register', user)
-  setAccessToken(responseData.token)
+  const responseData = await http.post<UserResponseDTO>(
+    'auth/register',
+     user
+)
 
+  setAccessToken(responseData.token)
   return responseData
 }

@@ -1,9 +1,11 @@
+type Role = 'STUDENT' | 'PROFESSOR' | 'TECHNICIAN'
+
 export type UserRequestDTO = {
   firstName: string
   lastName: string
   handle: string
   email: string
-  role: 'STUDENT' | 'PROFESSOR' | 'TECHNICIAN'
+  role: Role
   campus: string
   password: string
   course?: string | undefined
@@ -17,7 +19,7 @@ export type AuthUser = {
   avatarUrl?: string
   handle: string
   email: string
-  role: 'STUDENT' | 'PROFESSOR' | 'TECHNICIAN'
+  role: Role
   campus: {
       id: string
       name: string

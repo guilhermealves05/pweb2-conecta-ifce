@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage.tsx'
 import HomePage from "./pages/homepage/HomePage";
 import RegisterPage from './pages/RegisterPage.tsx'
 import { AuthProvider } from './features/auth/contexts/AuthContext.tsx'
+import FeedPage from './pages/FeedPage.tsx'
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
       {
         path: '/register',
         Component: RegisterPage
+      },
+      {
+        path: 'feed',
+        Component: FeedPage
+
       }
     ]
   }

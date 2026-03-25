@@ -5,6 +5,7 @@ import { registerSchema, type RegisterFormData } from "../schemas/register.schem
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ApiError } from "@/infra/http/api-error"
 import { getCampuses, registerUser } from "../services/register.service"
+import { useAuth } from "../contexts/AuthContext"
 
 export function useFormRegister() {
     const [showPass, setShowPass] = useState<boolean>(false)
@@ -17,6 +18,8 @@ export function useFormRegister() {
   >([])
 
   const navigate = useNavigate()
+
+  const { setAuthUser } = useAuth()
 
   useEffect(() => {
     async function fetchCampuses() {
@@ -49,10 +52,11 @@ export function useFormRegister() {
     console.log('Enviando....', data)
 
     const { course, ...rest } = data
-    const payload = data.role === 'student' ? data : rest
+    const payload = data.role === 'STUDENT' ? data : rest
 
     try {
-      registerUser(payload)
+      const responseData = await registerUser(payload)
+      setAuthUser(responseData.user)
       navigate('/feed')
     } catch (error) {
       if(error instanceof ApiError) {
