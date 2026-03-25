@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router"
 import { registerSchema, type RegisterFormData } from "../schemas/register.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { http } from "@/infra/http/http-client"
-import { setAccessToken } from "../storage/auth.storage"
 import { ApiError } from "@/infra/http/api-error"
 import { getCampuses, registerUser } from "../services/register.service"
 
@@ -50,16 +48,11 @@ export function useFormRegister() {
   const onSubmit = async (data: RegisterFormData) => {
     console.log('Enviando....', data)
 
-    if (!data.role) {
-      setRegisterError('Role is required')
-      return
-    }
-
     const { course, ...rest } = data
     const payload = data.role === 'student' ? data : rest
 
     try {
-      registerUser({ ...payload, role: data.role })
+      registerUser(payload)
       navigate('/feed')
     } catch (error) {
       if(error instanceof ApiError) {

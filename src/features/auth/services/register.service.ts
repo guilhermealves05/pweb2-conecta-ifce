@@ -1,6 +1,6 @@
 import { http } from '@/infra/http/http-client'
-import { setAccessToken } from '@/features/auth/storage/auth.storage'
-import type { UserRequestDTO, UserResponseDTO } from '../types/dto/auth-dto'
+import type { UserRequestDTO, UserResponseDTO } from '../types/dto/auth-dto.ts'
+import { setAccessToken } from '../storages/token.storage'
 
 
 type CampusType = {

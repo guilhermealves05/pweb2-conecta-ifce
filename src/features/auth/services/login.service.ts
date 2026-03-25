@@ -1,6 +1,6 @@
 import { http } from "@/infra/http/http-client"
-import { setAccessToken } from "../storage/auth.storage"
-import type { UserResponseDTO } from "../types/dto/auth-dto"
+import type { UserResponseDTO } from "../types/dto/auth-dto.ts"
+import { setAccessToken } from "../storages/token.storage"
 
 
 export async function login(email: string, password: string): Promise<UserResponseDTO> {
