@@ -3,9 +3,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { LoginSchema, type LoginFormData } from '../schemas/login.schema'
-import { setAccessToken } from '../storage/auth.storage'
-import { http } from '@/infra/http/http-client'
 import { ApiError } from '@/infra/http/api-error'
+import { login } from '../services/login.service'
 
 
 export function UseFormLogin() {
@@ -24,12 +23,7 @@ export function UseFormLogin() {
 
   const onSubmit = async (data: LoginFormData) => {
   try {
-    const responseData = await http.post<{ token: string; user: any }>(
-      'auth/login',
-      data
-    )
-
-    setAccessToken(responseData.token)
+    login(data.email, data.password)
     navigate('/feed')
   } catch (error) {
     if(error instanceof ApiError) {
