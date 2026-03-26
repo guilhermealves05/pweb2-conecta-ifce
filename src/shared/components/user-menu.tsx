@@ -1,23 +1,29 @@
 import UserAvatar from "./user-avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { useUserMenu } from "./useUserMenu"
 
 function UserMenu() {
+
+  const { authUser, getInitials, triggerLogout } = useUserMenu()
+
+  const initials = getInitials()
+
   return (
 
 <DropdownMenu>
   <DropdownMenuTrigger className='outline-none focus:outline-none'>
-    <UserAvatar />
+    <UserAvatar imageUrl={authUser?.avatarUrl} initials={initials} size='lg'/>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuGroup>
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-      <DropdownMenuItem>Profile</DropdownMenuItem>
-      <DropdownMenuItem>Billing</DropdownMenuItem>
+      <DropdownMenuLabel className='text-sm font-semibold text-foreground '>{authUser?.name}</DropdownMenuLabel>
+      <DropdownMenuLabel className='text-xs text-muted-foreground '>{authUser?.email}</DropdownMenuLabel>
+
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
-      <DropdownMenuItem>Team</DropdownMenuItem>
-      <DropdownMenuItem>Subscription</DropdownMenuItem>
+      <DropdownMenuItem>Perfil</DropdownMenuItem>
+      <DropdownMenuItem variant='destructive' onClick={triggerLogout}>Sair</DropdownMenuItem>
     </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>
