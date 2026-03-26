@@ -17,6 +17,8 @@ function AppLayout() {
         <Navbar>
           <Navbar.Brand to='/feed'/>
 
+          <Navbar.Search/>
+
           <Navbar.Links>
             <Navbar.Link to='/feed' text='Feed'/>
             <Navbar.Link to='/groups' text='Grupos'/>

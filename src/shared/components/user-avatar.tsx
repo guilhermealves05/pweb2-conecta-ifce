@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui/avatar"
 
 
-function AvatarUser() {
+function UserAvatar() {
   return (
     <div>
         <Avatar>
@@ -12,4 +12,4 @@ function AvatarUser() {
   )
 }
 
-export default AvatarUser
+export default UserAvatar
