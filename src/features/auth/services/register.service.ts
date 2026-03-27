@@ -1,5 +1,5 @@
 import { http } from '@/infra/http/http-client'
-import type { UserRequestDTO, UserResponseDTO } from '../types/dto/auth-dto.ts'
+import type { UserRequestDTO, UserResponseDTO } from '../types/dto/AuthDTO.ts'
 import { setAccessToken } from '../storages/token.storage'
 
 

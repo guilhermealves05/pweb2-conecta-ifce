@@ -1,4 +1,4 @@
-import type { AuthUser } from "../types/dto/auth-dto.ts"
+import type { AuthUser } from "../types/dto/AuthDTO.ts"
 
 const KEY_AUTH_USER = 'auth_user'
 
