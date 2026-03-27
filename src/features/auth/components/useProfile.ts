@@ -1,5 +1,5 @@
 import { getProfile } from "@/features/users/services/user.service"
-import type { UserProfileDTO } from "@/features/users/types/UserProfileDTO"
+import type { UserProfileDTO } from "@/features/users/types/dto/UserProfileDTO"
 import { useEffect, useState } from "react"
 
 export function useProfile() {
